@@ -1,11 +1,18 @@
 import tkinter
 from tkinter import filedialog as fd
+import organizer
 
 
 def select_directory():
     # select directory when button pressed
     directory_text = fd.askdirectory()
     directoryLineText.set(directory_text)
+
+
+def start_organizer():
+    # start the organizer methods
+    path = directoryLine.get()
+    organizer.get_directory(file_path=path)
 
 
 # create main GUI window
@@ -26,7 +33,7 @@ directoryButton = tkinter.Button(window, width=8, text="...", command=select_dir
 directoryButton.grid(row=0, column=3)
 
 # button to start organization of directory
-startButton = tkinter.Button(window, text="Organize Directory", width=18)
+startButton = tkinter.Button(window, text="Organize Directory", width=18, command=start_organizer)
 startButton.grid(row=1, column=0)
 
 # button to close window
