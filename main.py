@@ -12,7 +12,7 @@ def select_directory():
 def start_organizer():
     # start the organizer methods
     path = directoryLine.get()
-    organizer.get_directory(file_path=path)
+    organizer.sort_files(file_path=path)
 
 
 # create main GUI window

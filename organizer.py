@@ -1,32 +1,40 @@
 from os import mkdir, path, listdir
 import shutil
+import json
 
-image_ext = (".jpg", ".jpeg", ".png", ".gif", ".bmp")
-text_ext = (".txt", ".doc", ".docx", ".rtf")
-video_ext = (".mp4", ".wmv", ".mov")
-file_list = []
+
+def get_json_data():
+    json_file = open("config.json")
+    json_data = json.load(json_file)
+    return json_data
 
 
 def get_directory(file_path):
+    file_list = []
     total_dir = listdir(file_path)
     for file in total_dir:
         if path.isfile(file_path + "/" + file):
             file_list.append(file)
-    sort_files(file_path)
+    return file_list
 
 
 def sort_files(file_path):
+    # get file list from directory
+    file_list = get_directory(file_path)
+    # loop for each file found
     for file in file_list:
+
+        # get file extension
         file_ext = path.splitext(file)
-        if file_ext[1] in image_ext:
-            if not path.exists(file_path + "/" + "Images"):
-                mkdir(file_path + "/" + "Images")
-            shutil.move(file_path + "/" + file, file_path + "/" + "Images")
-        if file_ext[1] in text_ext:
-            if not path.exists(file_path + "/" + "Text"):
-                mkdir(file_path + "/" + "Text")
-            shutil.move(file_path + "/" + file, file_path + "/" + "Text")
-        if file_ext[1] in video_ext:
-            if not path.exists(file_path + "/" + "Video"):
-                mkdir(file_path + "/" + "Video")
-            shutil.move(file_path + "/" + file, file_path + "/" + "Video")
+        # get ruleset from JSON file
+        json_data = get_json_data()
+
+        # loop for each rule in ruleset
+        for rule in json_data["ext_sort_rules"]:
+            # if extension found in rule
+            if file_ext[1] in rule["extensions"]:
+                # create path if non-existing
+                if not path.exists(file_path + "/" + rule["directory"]):
+                    mkdir(file_path + "/" + rule["directory"])
+                # move file to new directory
+                shutil.move(file_path + "/" + file, file_path + "/" + rule["directory"])
