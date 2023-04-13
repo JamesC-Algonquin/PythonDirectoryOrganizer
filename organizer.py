@@ -14,6 +14,11 @@ def get_json_data(exception_callback):
         return json_data
 
 
+def restore_default(exception_callback):
+    shutil.copyfile("config_default.json", "config.json")
+    exception_callback("Restored Default Configuration\n")
+
+
 def get_directory(file_path, exception_callback):
     file_list = []
     try:
@@ -40,7 +45,7 @@ def sort_files(file_path, exception_callback):
     json_data = get_json_data(exception_callback)
 
     if not json_data:
-        exception_callback("Please restore configuration files")
+        exception_callback("Please restore configuration files\n")
         return
 
     # loop for each file found

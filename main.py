@@ -1,5 +1,6 @@
 import os
 import tkinter
+import tkinter.messagebox
 from tkinter import filedialog as fd
 from tkinter import scrolledtext as st
 import organizer
@@ -33,6 +34,15 @@ def append_log(text):
     logText.configure(state='disabled')
 
 
+def restore_default():
+    restore = tkinter.messagebox.askyesno(title="Confirm",
+                                          message="Are you sure you want to restore default configuration?")
+    if restore:
+        organizer.restore_default(append_log)
+    else:
+        return
+
+
 # create main GUI window
 window = tkinter.Tk()
 window.title(" Directory Organizer")
@@ -63,7 +73,7 @@ configButton = tkinter.Button(window, text="Config", width=18, command=config_js
 configButton.grid(row=2, column=2, pady=5, padx=5)
 
 # button to close window
-closeButton = tkinter.Button(window, text="Close", width=18, command=window.destroy)
+closeButton = tkinter.Button(window, text="Restore Defaults", width=18, command=restore_default)
 closeButton.grid(row=2, column=4, pady=5, padx=5)
 
 # Main GUI loop
