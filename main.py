@@ -1,6 +1,7 @@
 import os
 import tkinter
 from tkinter import filedialog as fd
+from tkinter import scrolledtext as st
 import organizer
 
 
@@ -13,12 +14,23 @@ def select_directory():
 def start_organizer():
     # start the organizer methods
     path = directoryLine.get()
-    organizer.sort_files(file_path=path)
+    if not path:
+        append_log("Please Select a Directory\n")
+    else:
+        organizer.sort_files(file_path=path, exception_callback=append_log)
 
 
 def config_json():
     # open json file
     os.startfile("config.json")
+
+
+def append_log(text):
+    logText.configure(state='normal')
+    logText.insert(tkinter.INSERT, "\n --")
+    logText.insert(tkinter.INSERT, text)
+    logText.see("end")
+    logText.configure(state='disabled')
 
 
 # create main GUI window
@@ -39,16 +51,20 @@ directoryLine.grid(row=0, column=1, columnspan=3)
 directoryButton = tkinter.Button(window, width=8, text="...", command=select_directory)
 directoryButton.grid(row=0, column=4)
 
+logText = st.ScrolledText(window, width=80, height=10, font=("Times New Roman", 9))
+logText.grid(columnspan=5, padx=2, pady=4)
+logText.configure(state='disabled')
+
 # button to start organization of directory
 startButton = tkinter.Button(window, text="Organize Directory", width=18, command=start_organizer)
-startButton.grid(row=1, column=0, pady=5, padx=5)
+startButton.grid(row=2, column=0, pady=5, padx=5)
 
 configButton = tkinter.Button(window, text="Config", width=18, command=config_json)
-configButton.grid(row=1, column=2, pady=5, padx=5)
+configButton.grid(row=2, column=2, pady=5, padx=5)
 
 # button to close window
 closeButton = tkinter.Button(window, text="Close", width=18, command=window.destroy)
-closeButton.grid(row=1, column=4, pady=5, padx=5)
+closeButton.grid(row=2, column=4, pady=5, padx=5)
 
 # Main GUI loop
 window.mainloop()

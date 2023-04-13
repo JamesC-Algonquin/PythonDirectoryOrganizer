@@ -1,0 +1,18 @@
+{
+	"ext_sort_rules": [
+	
+		{
+			"directory":"Images",
+			"extensions": [".png", ".jpg", ".jpeg", ".gif", ".bmp"]
+		},{
+			"directory":"Videos",
+			"extensions": [".mp4", ".wmv", ".mov", ".avi"]
+		},{
+			"directory":"Documents",
+			"extensions": [".txt", ".doc", ".docx", ".rtf", ".pdf"]
+		},{
+			"directory":"Audio",
+			"extensions": [".mp3", ".wav", ".aac", ".wma", ".ogg"]
+		}
+	]
+}
